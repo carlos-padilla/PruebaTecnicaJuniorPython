@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+<div class="card card-body" id="clientes_formularios" >
+    <form action="/actualizar_cliente/{{datos_servidor_cliente_editar.0}}" method="POST" enctype=multipart/form-data>
+        <label >Datos del cliente</label>
+        <div class="row">
+            <div class="col">
+                <div class="form-group ">
+                    <label >Cédula</label>
+                    <input type="number" name="cedula_cliente" placeholder="Cédula" class="form-control" value="{{datos_servidor_cliente_editar.1}}"> 
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label >Nombre</label>
+                    <input type="text" name="nombre_cliente" placeholder="nombre" class="form-control" value="{{datos_servidor_cliente_editar.2}}"> 
+                </div>
+            </div>                    
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label >Dirección</label>
+                    <input type="text" name="direccion_cliente" placeholder="Dirección" class="form-control" value="{{datos_servidor_cliente_editar.3}}"> 
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label >Teléfono</label>
+                    <input type="number" name="telefono_cliente" placeholder="Teléfono" class="form-control" value="{{datos_servidor_cliente_editar.4}}">  
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Image</span>
+                </div>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" name="foto_cliente">
+                  <label class="custom-file-label" for="inputGroupFile01">...</label>
+                </div>
+              </div>                    
+        </div>           
+        <div class="form-grup">
+            <button type="submit" class="btn btn-primary btn-block">
+                Guardar
+            </button>
+        </div>        
+    </form>
+</div>
+
+</form>
+{% endblock %}

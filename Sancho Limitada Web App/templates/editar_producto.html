@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+<div class="card card-body" id="productos_formularios" style="{{bloque_productos}}">
+    <form action="/actualizar_producto/{{datos_servidor_producto_editar.0}}" method="POST" enctype=multipart/form-data>
+        <label> Datos producto</label>
+        <div class="row">
+            <div class="col">
+                <div class="form_grup">
+                    <label>Código</label>
+                    <input type="text" name="codigo_producto" placeholder="Código producto" class="form-control" value="{{datos_servidor_producto_editar.1}}"> 
+                </div>
+            </div>
+            <div class="col">
+                <div class="form_grup">
+                    <label>Categoría</label>
+                    <input type="text" name="categoria_producto" placeholder="Categoría producto" class="form-control" value="{{datos_servidor_producto_editar.2}}"> 
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form_grup">
+                    <label>Nombre del producto</label>
+                    <input type="text" name="nombre_producto" placeholder="Nombre producto" class="form-control" value="{{datos_servidor_producto_editar.3}}">          
+                </div>
+            </div>
+            <div class="col">
+                <div class="form_grup">
+                    <label> Precio</label>
+                    <input type="number" name="precio_producto" placeholder="Precio producto" class="form-control" value="{{datos_servidor_producto_editar.4}}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form_grup">
+                    <label>Cantidad en bodega</label>
+                    <input type="number" name="cantidad_bodega_producto" placeholder="Cantidad producto" class="form-control" value="{{datos_servidor_producto_editar.5}}"> 
+                </div>
+            </div>
+            <div class="col">
+                <label>Estado</label>
+                <div class="form_grup">
+                    <select name="estado_producto">
+                        <option value="ACTIVO">ACTIVO</option>  
+                        <option value="INACTIVO">INACTIVO</option>  
+                    </select>
+                </div>
+            </div>
+        </div>        
+        <div class="form-grup">
+            <button type="submit" class="btn btn-primary btn-block">
+                Guardar
+            </button>
+        </div> 
+        
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+<div class="card card-body" id="facturas_formularios">
+    <form action="/actualizar_factura/{{datos_servidor_factura_editar.0}}" method="POST" enctype=multipart/form-data>
+        <label >Datos Factura</label>
+        <div class="row">            
+            <div class="col">
+                <div class="form-group">
+                    <label >Código</label>                
+                    <input type="text" name="codigo_factura" placeholder="Código factura" class="form-control" value="{{datos_servidor_factura_editar.1}}">         
+                </div>                
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label >Cliente</label>  
+                    <input type="text" name="cliente_compra_factura" placeholder="Cliente" class="form-control" value="{{datos_servidor_factura_editar.2}}"> 
+                </div>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label >Fecha</label> 
+                <div class="form-group">
+                     
+                    <input type="date" name="fecha_factura"
+                    value="2018-07-22"
+                    min="1999-01-01" max="2200-12-31">
+                </div>                
+            </div>
+            <div class="col">
+                <label > ID cliente</label>
+                <div class="form-group">                    
+                    <select name="id_relacion_cliente_factura">
+                    {% for datos_cliente in datos_cliente_editar_factura %}
+                        <option value="{{ datos_cliente.0 }}">{{ datos_cliente.0 }}</option> 
+                    {% endfor %}    
+                    </select>
+                </div>                
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label >Método de pago</label>  
+                    <input type="text" name="metodo_pago_factura" placeholder=" Método pago" class="form-control" value="{{datos_servidor_factura_editar.7}}">
+                </div>                
+            </div>            
+        </div>            
+        <label >Listado de productos</label>
+        <div style="overflow-y: scroll; height: 150px; ">
+            <table class="table table-bordered table-hover table-sm table-responsive ">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nombre producto</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for datos_producto in datos_servidor_producto %}
+                        <tr>
+                            <td>{{ datos_producto.3 }}</td>
+                            <td><input type="number" name="{{ datos_producto.0 }}" placeholder="cantidad producto" value="0"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>    
+        <button type="submit" class="btn btn-primary btn-block">
+            Guardar
+        </button>
+    </form>
+</div>
+
+{% endblock %}

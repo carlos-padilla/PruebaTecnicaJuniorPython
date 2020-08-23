@@ -1,0 +1,306 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+<div class="row">
+    <div class="col">
+        <form action="/habilitar_bloque_clientes" method="POST">
+            <button type="submit" class="btn btn-primary btn-block">
+                Clientes
+            </button>
+        </form>
+    </div>
+    <div class="col">
+        <form action="/habilitar_bloque_facturas" method="POST">
+            <button type="submit" class="btn btn-primary btn-block">
+                Facturas
+            </button>
+        </form>
+    </div>
+    <div class="col"> 
+        <form action="habilitar_bloque_productos" method="POST">
+            <button type="submit" class="btn btn-primary btn-block">
+                Productos
+            </button>
+        </form>
+    </div>
+</div>  
+
+<div class="card card-body" id="clientes_formularios" style="{{bloque_clientes}}" >
+    <form action="/nuevo_cliente" method="POST" enctype=multipart/form-data>
+        <label >Datos del cliente</label>
+        <div class="row">
+            <div class="col">
+                <div class="form-group ">
+                    <label >Cédula</label>
+                    <input type="number" name="cedula_cliente" placeholder="Cédula" class="form-control"> 
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label >Nombre</label>
+                    <input type="text" name="nombre_cliente" placeholder="Nombre" class="form-control"> 
+                </div>
+            </div>                    
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label >Dirección</label>
+                    <input type="text" name="direccion_cliente" placeholder="Dirección" class="form-control"> 
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label >Teléfono</label>
+                    <input type="number" name="telefono_cliente" placeholder="Teléfono" class="form-control">  
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Image</span>
+                </div>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" name="foto_cliente">
+                  <label class="custom-file-label" for="inputGroupFile01">...</label>
+                </div>
+              </div>                    
+        </div>           
+        <div class="form-grup">
+            <button type="submit" class="btn btn-primary btn-block">
+                Guardar
+            </button>
+        </div>        
+    </form>
+</div>
+
+<div class="card card-body" id="clientes_tabla" style="{{bloque_clientes}}">
+    <table class="table table-bordered table-hover table-sm table-responsive " >
+        <thead class="thead-light" >
+            <tr>
+                <th>ID</th>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Foto</th>
+                <th>Operación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for datos_cliente in datos_servidor_cliente %}
+                <tr>
+                    <td>{{ datos_cliente.0 }}</td>
+                    <td>{{ datos_cliente.1 }}</td>
+                    <td>{{ datos_cliente.2 }}</td>
+                    <td>{{ datos_cliente.3 }}</td>
+                    <td>{{ datos_cliente.4 }}</td>
+                    <td>{{ datos_cliente.5 }}</td>
+                    <td>
+                        <a href="/editar_cliente/{{datos_cliente.0}}" class="btn btn-secondary">Editar</a>
+                        <a href="/borrar_cliente/{{datos_cliente.0}}" class="btn btn-danger">Borrar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card card-body" id="facturas_formularios" style="{{bloque_facturas}}">
+    <form action="/nueva_factura" method="POST" enctype=multipart/form-data>
+        <label >Datos Factura</label>
+        <div class="row">            
+            <div class="col">
+                <div class="form-group">
+                    <label >Código</label>                
+                    <input type="text" name="codigo_factura" placeholder="Código factura" class="form-control">         
+                </div>                
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label >Cliente</label>  
+                    <input type="text" name="cliente_compra_factura" placeholder="Cliente" class="form-control"> 
+                </div>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label >Fecha</label> 
+                <div class="form-group">
+                     
+                    <input type="date" name="fecha_factura"
+                    value="2018-07-22"
+                    min="1999-01-01" max="2200-12-31">
+                </div>                
+            </div>
+            <div class="col">
+                <label > ID cliente</label>
+                <div class="form-group">                    
+                    <select name="id_relacion_cliente_factura">
+                    {% for datos_cliente in datos_servidor_cliente %}
+                        <option value="{{ datos_cliente.0 }}">{{ datos_cliente.0 }}</option> 
+                    {% endfor %}    
+                    </select>
+                </div>                
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label >Método de pago</label>  
+                    <input type="text" name="metodo_pago_factura" placeholder="Método pago" class="form-control">
+                </div>                
+            </div>            
+        </div>            
+        <label >Listado de productos</label>
+        <div style="overflow-y: scroll; height: 150px; ">
+            <table class="table table-bordered table-hover table-sm table-responsive ">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nombre producto</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for datos_producto in datos_servidor_producto %}
+                        <tr>
+                            <td>{{ datos_producto.3 }}</td>
+                            <td><input type="number" name="{{ datos_producto.0 }}" placeholder="cantidad producto" value="0"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>    
+        <button type="submit" class="btn btn-primary btn-block">
+            Guardar
+        </button>
+    </form>
+</div>
+
+<div class="card card-body" id="facturas_tablas" style="{{bloque_facturas}}">
+    <table class="table table-bordered table-hover table-sm table-responsive ">
+        <thead class="thead-light">
+            <tr>
+                <th>Código</th>
+                <th>Cliente</th>
+                <th>Productos</th>
+                <th>Cantidad productos</th>
+                <th>Fecha</th>
+                <th>Valor total</th>
+                <th>Metodo pago</th>
+                <th>Operación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for datos_factura in datos_servidor_factura %}
+                <tr>
+                    <td>{{ datos_factura.1 }}</td>
+                    <td>{{ datos_factura.2 }}</td>
+                    <td>{{ datos_factura.3 }}</td>
+                    <td>{{ datos_factura.4 }}</td>
+                    <td>{{ datos_factura.5 }}</td>
+                    <td>{{ datos_factura.6 }}</td>
+                    <td>{{ datos_factura.7 }}</td>
+                    <td>
+                        <a href="/editar_factura/{{datos_factura.0}}" class="btn btn-secondary">Editar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card card-body" id="productos_formularios" style="{{bloque_productos}}">
+    <form action="/nuevo_producto" method="POST" enctype=multipart/form-data>
+        <label> Datos producto</label>
+        <div class="row">
+            <div class="col">
+                <div class="form_grup">
+                    <label>Código</label>
+                    <input type="text" name="codigo_producto" placeholder=" Código producto" class="form-control"> 
+                </div>
+            </div>
+            <div class="col">
+                <div class="form_grup">
+                    <label>Categoría</label>
+                    <input type="text" name="categoria_producto" placeholder="Categoría producto" class="form-control"> 
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form_grup">
+                    <label>Nombre del producto</label>
+                    <input type="text" name="nombre_producto" placeholder="Nombre producto" class="form-control">          
+                </div>
+            </div>
+            <div class="col">
+                <div class="form_grup">
+                    <label> Precio</label>
+                    <input type="number" name="precio_producto" placeholder="Precio producto" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form_grup">
+                    <label>Cantidad en bodega</label>
+                    <input type="number" name="cantidad_bodega_producto" placeholder="Cantidad producto" class="form-control"> 
+                </div>
+            </div>
+            <div class="col">
+                <label>Estado</label>
+                <div class="form_grup">
+                    <select name="estado_producto">
+                        <option value="ACTIVO">ACTIVO</option>  
+                        <option value="INACTIVO">INACTIVO</option>  
+                    </select>
+                </div>
+            </div>
+        </div>        
+        <div class="form-grup">
+            <button type="submit" class="btn btn-primary btn-block">
+                Guardar
+            </button>
+        </div> 
+        
+    </form>
+</div>
+
+<div class="card card-body" id="productos_tabla" style="{{bloque_productos}}">
+    <form action="/desactivar" method="POST" enctype=multipart/form-data>   
+        <div class="form-grup">
+            <button id = "boton_desactivar" type="submit" class="btn {{boton_desactivar_producto}} btn-block" >
+                Desactivar productos inactivos de la lista
+            </button>            
+        </div>        
+    </form>
+    <table class="table table-bordered table-hover table-sm table-responsive ">
+        <thead class="thead-light">
+            <tr>
+                <th>Código</th>
+                <th>Categoría</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Estado</th>
+                <th>Operación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for datos_producto in datos_servidor_producto %}
+                <tr>
+                    <td>{{ datos_producto.1 }}</td>
+                    <td>{{ datos_producto.2 }}</td>
+                    <td>{{ datos_producto.3 }}</td>
+                    <td>{{ datos_producto.4 }}</td>
+                    <td>{{ datos_producto.5 }}</td>
+                    <td>{{ datos_producto.6 }}</td>
+                    <td>
+                        <a href="/editar_producto/{{datos_producto.0}}" class="btn btn-secondary">Editar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+
+{% endblock %}
